@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EFCorePolls.Entity
+{
+   public class Poll
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+
+        public int UserIdCreted { get; set; }
+        public Option User { get; set; }
+
+        public List<Question> Questions { get; set; }
+        public List<Vote> Votes { get; set; }
+    }
+}

@@ -24,7 +24,5 @@ namespace EFCorePolls.Entity
         public Poll Poll { get; set; }
 
 
-        
-
     }
 }

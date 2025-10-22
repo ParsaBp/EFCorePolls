@@ -23,7 +23,7 @@ namespace EFCorePolls.Infrustructor.Configuration
             builder.HasMany(p => p.Votes).WithOne(p => p.Poll)
                 .HasForeignKey(p => p.PollId)
                 .OnDelete(DeleteBehavior.NoAction);
-
+            builder.HasMany(p => p.Users).WithMany(u => u.Polls);
         }
     }
 }

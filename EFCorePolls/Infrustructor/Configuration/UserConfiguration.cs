@@ -17,6 +17,7 @@ namespace EFCorePolls.Infrustructor.Configuration
             builder.Property(p => p.UserName).HasMaxLength(100).IsRequired();
             builder.Property(p => p.Password).HasMaxLength(100).IsRequired();
             builder.HasIndex(p => p.UserName).IsUnique();
+
             builder.HasMany(p => p.Votes).WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.NoAction);

@@ -9,9 +9,10 @@ using EFCorePolls.Entity;
 namespace EFCorePolls.Contract.IRepozitory
 {
    public interface IPollRepository
-    {
-        ResultDto CreatePoll(Poll poll  )
+   {
+       void CreatePoll(Poll poll);
+       ResultDto Delete(int pollId);
+       PollResultDto ShowPollResult(int pollId);
 
-
-    }
+   }
 }

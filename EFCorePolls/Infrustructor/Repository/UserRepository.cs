@@ -27,7 +27,7 @@ namespace EFCorePolls.Infrustructor.Repository
         {
             return _appDb.Users
                 .Where(u => u.UserName == username && u.Password == password)
-                .Select(u => new LoginDto { Id = u.Id, Role = u.Role })
+                .Select(u => new LoginDto { Id = u.Id, Role = u.Role , UserName = u.UserName})
                 .FirstOrDefault();
         }
 

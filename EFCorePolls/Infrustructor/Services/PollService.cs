@@ -70,7 +70,7 @@ namespace EFCorePolls.Infrustructor.Services
 
         public ResultDto DeletePoll(int pollId)
         {
-            var hasVotes = _voteRepo.UserHasVoted(pollId);
+            var hasVotes = _voteRepo.AnyUserHasVoted(pollId);
             if (!hasVotes)
                 return new ResultDto { IsSuccess = false, Message = "Can not delete the poll because nobody has voted." };
 
@@ -99,18 +99,15 @@ namespace EFCorePolls.Infrustructor.Services
         }
 
         // 2. Vote in a poll (user chooses an option 1–4)
-        public ResultDto Vote(int pollId, int questionId, int selectedOptionNumber, int userId)
+        public ResultDto Vote(int pollId, int questionId, int selectedOptionNumber, int userId , string username)
         {
-            // Validate user and poll existence
-            if (!_userRepo.CheckUserId(userId))
-                return new ResultDto { IsSuccess = false, Message = "Invalid user." };
+            
 
             if (!_pollRepo.PollExists(pollId))
                 return new ResultDto { IsSuccess = false, Message = "Poll does not exist." };
 
             // Check if already voted
-            var user = _userRepo.GetUserInfoById(userId);
-            if (_voteRepo.UserHasVoted(pollId, user.UserName))
+            if (_voteRepo.UserHasVoted(pollId,userId))
                 return new ResultDto { IsSuccess = false, Message = "You have already voted in this poll." };
 
             // Map 1–4 to actual option
@@ -127,7 +124,7 @@ namespace EFCorePolls.Infrustructor.Services
                 OptionId = selectedOption.Id,
                 QuestionId = questionId,
                 UserId = userId,
-                UserName = user.UserName,
+                UserName = username,
                 VotedAt = DateTime.Now
             };
 

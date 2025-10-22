@@ -10,5 +10,6 @@ namespace EFCorePolls.Contract.IRepozitory
     public interface IQuestionRepository
     {
         public void CreateQuestio(Question question);
+        Question GetQuestionById(int questionId);
     }
 }

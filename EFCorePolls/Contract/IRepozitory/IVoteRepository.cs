@@ -9,7 +9,8 @@ namespace EFCorePolls.Contract.IRepozitory
 {
     public interface IVoteRepository
     {
-        public bool UserHasVoted(int pollId);
+        public bool AnyUserHasVoted(int pollId);
         public void AddVote(Vote vote);
+        public bool UserHasVoted(int pollId, int userId);
     }
 }

@@ -16,7 +16,7 @@ namespace EFCorePolls.Infrustructor.Repository
         {
             _appDb = new AppDbContext();
         }
-        public bool UserHasVoted(int pollId)
+        public bool AnyUserHasVoted(int pollId)
         {
             return _appDb.Votes.Any(v => v.PollId == pollId);
         }
@@ -24,6 +24,12 @@ namespace EFCorePolls.Infrustructor.Repository
         {
             _appDb.Votes.Add(vote);
             _appDb.SaveChanges();
+        }
+
+        public bool UserHasVoted(int pollId, int userId)
+        {
+            return _appDb.Votes.Any(v => v.PollId == pollId && v.UserId == userId);
+
         }
     }
 }

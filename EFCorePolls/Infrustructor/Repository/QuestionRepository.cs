@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EFCorePolls.Infrustructor.Repository
 {
-    public class QuestionRepository:IQuestionRepository
+    public class QuestionRepository : IQuestionRepository
     {
         private readonly AppDbContext _appDb;
 
@@ -21,6 +21,11 @@ namespace EFCorePolls.Infrustructor.Repository
         {
             _appDb.Questions.Add(question);
             _appDb.SaveChanges();
+        }
+
+        public Question GetQuestionById(int questionId)
+        {
+            return _appDb.Questions.FirstOrDefault(q => q.Id == questionId);
         }
     }
 }

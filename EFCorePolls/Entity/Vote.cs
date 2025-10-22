@@ -11,18 +11,18 @@ namespace EFCorePolls.Entity
         public int Id { get; set; }
         public DateTime VotedAt { get; set; }
 
-        public int QuestionId { get; set; }
-        public Question Question { get; set; }
+        public int PollId { get; set; }
+        public Poll Poll { get; set; }
 
         public int OptionId { get; set; }
         public Option Option { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int? UserId { get; set; }
+        public string UserName { get; set; }
+        public User? User { get; set; }
 
-        public int PollId { get; set; }
-        public Poll Poll { get; set; }
-
+        public Question Question { get; set; }
+        public int QuestionId { get; set; }
 
     }
 }

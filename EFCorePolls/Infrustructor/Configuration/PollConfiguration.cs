@@ -15,15 +15,17 @@ namespace EFCorePolls.Infrustructor.Configuration
         public void Configure(EntityTypeBuilder<Poll> builder)
         {
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Title).IsRequired().HasMaxLength(300);
-            builder.HasMany(p => p.Questions).WithOne(p => p.Poll)
-                .HasForeignKey(p => p.PollId)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.Property(p => p.Question).IsRequired().HasMaxLength(300);
 
-            builder.HasMany(p => p.Votes).WithOne(p => p.Poll)
-                .HasForeignKey(p => p.PollId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(p => p.Users).WithMany(u => u.Polls);
+            builder.HasMany(p => p.Questions)
+                   .WithOne(q => q.Poll)
+                   .HasForeignKey(q => q.PollId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Votes)
+                   .WithOne(v => v.Poll)
+                   .HasForeignKey(v => v.PollId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

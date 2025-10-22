@@ -17,24 +17,24 @@ namespace EFCorePolls.Infrustructor.Configuration
             builder.Property(v => v.VotedAt).IsRequired();
 
             builder.HasOne(v => v.User)
-                .WithMany(u => u.Votes)
-                .HasForeignKey(v => v.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(u => u.Votes)
+                   .HasForeignKey(v => v.UserId)
+                   .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(v => v.Poll)
-                .WithMany(p => p.Votes)
-                .HasForeignKey(v => v.PollId)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(p => p.Votes)
+                   .HasForeignKey(v => v.PollId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(v => v.Question)
-                .WithMany(q => q.Votes)
-                .HasForeignKey(v => v.QuestionId)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(q => q.Votes)
+                   .HasForeignKey(v => v.QuestionId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(v => v.Option)
-                .WithMany(o => o.Votes)
-                .HasForeignKey(v => v.OptionId)
-                .OnDelete(DeleteBehavior.NoAction);
+                   .WithMany(o => o.Votes)
+                   .HasForeignKey(v => v.OptionId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

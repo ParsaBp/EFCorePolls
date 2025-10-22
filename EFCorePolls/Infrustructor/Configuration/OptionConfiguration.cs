@@ -13,16 +13,19 @@ namespace EFCorePolls.Infrustructor.Configuration
     {
         public void Configure(EntityTypeBuilder<Option> builder)
         {
-            builder.HasKey(p => p.Id);
-            builder.Property(p => p.Text).HasMaxLength(300);
+            builder.HasKey(o => o.Id);
+            builder.Property(o => o.Text).IsRequired().HasMaxLength(300);
 
-            builder.HasMany(p => p.Votes).WithOne(p => p.Option)
-                .HasForeignKey(p => p.OptionId)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(o => o.Votes)
+                   .WithOne(v => v.Option)
+                   .HasForeignKey(v => v.OptionId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(p => p.Question).WithMany(p => p.Options)
-                .HasForeignKey(p => p.QuestionId)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(o => o.Question)
+                   .WithMany(q => q.Options)
+                   .HasForeignKey(o => o.QuestionId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
 
         }
     }

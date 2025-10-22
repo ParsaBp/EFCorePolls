@@ -19,4 +19,5 @@ namespace EFCorePolls.Entity
         public List<Vote> Votes { get; set; }
         public List<Poll> Polls { get; set; }
     }
+
 }

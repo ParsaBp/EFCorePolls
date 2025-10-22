@@ -8,9 +8,8 @@ namespace EFCorePolls.DTO
 {
    public class PollResultDto
    {
-       public bool IsSucces { get; set; }
-       public string Message { get; set; }
-       public int PollId { get; set; } 
-
+        public string OptionText { get; set; }
+        public int VoteCount { get; set; }
+        public List<string> Participants { get; set; }
     }
 }

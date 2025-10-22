@@ -8,21 +8,18 @@ using System.Threading.Tasks;
 
 namespace EFCorePolls.Infrustructor.Repository
 {
-    public class VoteRepository : IVoteRepository
+    public class QuestionRepository:IQuestionRepository
     {
         private readonly AppDbContext _appDb;
 
-        public VoteRepository()
+        public QuestionRepository()
         {
             _appDb = new AppDbContext();
         }
-        public bool UserHasVoted(int pollId)
+
+        public void CreateQuestio(Question question)
         {
-            return _appDb.Votes.Any(v => v.PollId == pollId);
-        }
-        public void AddVote(Vote vote)
-        {
-            _appDb.Votes.Add(vote);
+            _appDb.Questions.Add(question);
             _appDb.SaveChanges();
         }
     }

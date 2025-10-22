@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace EFCorePolls.Contract.IRepozitory
 {
-    public interface IVoteRepository
+    public interface IQuestionRepository
     {
-        public bool UserHasVoted(int pollId);
-        public void AddVote(Vote vote);
+        public void CreateQuestio(Question question);
     }
 }

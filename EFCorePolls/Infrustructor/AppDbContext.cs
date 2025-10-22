@@ -34,7 +34,7 @@ namespace EFCorePolls.Infrustructor
                 );
 
             model.Entity<Poll>().HasData(
-                new Poll { Id = 1, Question = "question1" }
+                new Poll { Id = 1, Title = "question1" }
                 );
 
             model.Entity<Vote>().HasData(

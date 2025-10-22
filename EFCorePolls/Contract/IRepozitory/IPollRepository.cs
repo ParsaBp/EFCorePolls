@@ -10,9 +10,14 @@ namespace EFCorePolls.Contract.IRepozitory
 {
    public interface IPollRepository
    {
-       void CreatePoll(Poll poll);
-       ResultDto Delete(int pollId);
-       PollResultDto ShowPollResult(int pollId);
+        public void CreatePoll(Poll poll);
 
-   }
+        public ResultDto Delete(int pollId);
+
+        public List<PollResultDto> ShowPollResult(int pollId);
+
+        public List<ShowQuestionsDto> ShowPolls();
+
+        public bool PollExists(int pollId);
+    }
 }

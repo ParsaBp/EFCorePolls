@@ -11,5 +11,6 @@ namespace EFCorePolls.DTO
         public string OptionText { get; set; }
         public int VoteCount { get; set; }
         public List<string> Participants { get; set; }
+        public double Percentage { get; set; }
     }
 }

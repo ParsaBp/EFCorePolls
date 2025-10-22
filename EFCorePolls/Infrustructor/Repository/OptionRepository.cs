@@ -1,4 +1,5 @@
 ﻿using EFCorePolls.Contract.IRepozitory;
+using EFCorePolls.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace EFCorePolls.Infrustructor.Repository
         public bool OptionExists(int optionId)
         {
             return _appDb.Options.Any(o => o.Id == optionId);
+        }
+        public void CreateOption(Option option)
+        {
+            _appDb.Options.Add(option);
+            _appDb.SaveChanges();
         }
     }
 }

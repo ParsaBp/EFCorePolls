@@ -45,8 +45,10 @@ namespace EFCorePolls.Infrustructor.Repository
             return _appDb.Options
                            .Where(o => o.PollId == pollId)
                            .Include(o => o.Votes)
+                           .Include(o=>o.Question)
                            .Select(o => new PollResultDto
                            {
+                               QuestionText=o.Question.Text ,
                                OptionText = o.Text,
                                VoteCount = o.Votes.Count,
                                Participants = o.Votes

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCorePolls.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251023063032_third")]
-    partial class third
+    [Migration("20251023070711_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,12 +154,10 @@ namespace EFCorePolls.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -168,9 +166,6 @@ namespace EFCorePolls.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserName")
-                        .IsUnique();
-
                     b.ToTable("Users");
 
                     b.HasData(
@@ -178,21 +173,21 @@ namespace EFCorePolls.Migrations
                         {
                             Id = 1,
                             Password = "1234",
-                            Role = "NormalUser",
+                            Role = 1,
                             UserName = "user1"
                         },
                         new
                         {
                             Id = 2,
                             Password = "1234",
-                            Role = "NormalUser",
+                            Role = 1,
                             UserName = "user2"
                         },
                         new
                         {
                             Id = 3,
                             Password = "1234",
-                            Role = "Admin",
+                            Role = 0,
                             UserName = "admin1"
                         });
                 });
@@ -264,13 +259,13 @@ namespace EFCorePolls.Migrations
                     b.HasOne("EFCorePolls.Entity.Poll", "Poll")
                         .WithMany("Options")
                         .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EFCorePolls.Entity.Question", "Question")
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Poll");
@@ -307,13 +302,13 @@ namespace EFCorePolls.Migrations
                     b.HasOne("EFCorePolls.Entity.Poll", "Poll")
                         .WithMany("Votes")
                         .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EFCorePolls.Entity.Question", "Question")
                         .WithMany("Votes")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EFCorePolls.Entity.User", "User")

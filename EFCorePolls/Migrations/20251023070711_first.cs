@@ -20,8 +20,8 @@ namespace EFCorePolls.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,7 +85,7 @@ namespace EFCorePolls.Migrations
                         column: x => x.PollId,
                         principalTable: "Polls",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Options_Questions_QuestionId",
                         column: x => x.QuestionId,
@@ -121,13 +121,13 @@ namespace EFCorePolls.Migrations
                         column: x => x.PollId,
                         principalTable: "Polls",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Votes_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Votes_Users_UserId",
                         column: x => x.UserId,
@@ -146,9 +146,9 @@ namespace EFCorePolls.Migrations
                 columns: new[] { "Id", "Password", "Role", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "1234", "NormalUser", "user1" },
-                    { 2, "1234", "NormalUser", "user2" },
-                    { 3, "1234", "Admin", "admin1" }
+                    { 1, "1234", 1, "user1" },
+                    { 2, "1234", 1, "user2" },
+                    { 3, "1234", 0, "admin1" }
                 });
 
             migrationBuilder.InsertData(
@@ -195,12 +195,6 @@ namespace EFCorePolls.Migrations
                 name: "IX_Questions_PollId",
                 table: "Questions",
                 column: "PollId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_UserName",
-                table: "Users",
-                column: "UserName",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Votes_OptionId",

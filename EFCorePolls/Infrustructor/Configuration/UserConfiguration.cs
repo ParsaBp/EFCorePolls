@@ -13,17 +13,19 @@ namespace EFCorePolls.Infrustructor.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(p => p.Id);
-            builder.Property(p => p.UserName).HasMaxLength(100).IsRequired();
-            builder.Property(p => p.Password).HasMaxLength(100).IsRequired();
-            builder.HasIndex(p => p.UserName).IsUnique();
+            builder.HasKey(u => u.Id);
 
-            builder.HasMany(p => p.Votes).WithOne(p => p.User)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.Property(p => p.Role).HasConversion<string>();
+            builder.Property(u => u.Role).HasConversion<string>();
 
+            builder.Property(u => u.UserName)
+                   .IsRequired()
+                   .HasMaxLength(100);
 
+            // User → Votes (no cascade, handled via VoteConfiguration)
+            builder.HasMany(u => u.Votes)
+                   .WithOne(v => v.User)
+                   .HasForeignKey(v => v.UserId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

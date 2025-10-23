@@ -54,7 +54,7 @@ namespace EFCorePolls.Infrustructor
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Hw16;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             base.OnConfiguring(optionsBuilder);
         }
 

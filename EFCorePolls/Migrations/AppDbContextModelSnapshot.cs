@@ -151,8 +151,7 @@ namespace EFCorePolls.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -164,9 +163,6 @@ namespace EFCorePolls.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -261,13 +257,13 @@ namespace EFCorePolls.Migrations
                     b.HasOne("EFCorePolls.Entity.Poll", "Poll")
                         .WithMany("Options")
                         .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EFCorePolls.Entity.Question", "Question")
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Poll");
@@ -304,13 +300,13 @@ namespace EFCorePolls.Migrations
                     b.HasOne("EFCorePolls.Entity.Poll", "Poll")
                         .WithMany("Votes")
                         .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EFCorePolls.Entity.Question", "Question")
                         .WithMany("Votes")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EFCorePolls.Entity.User", "User")

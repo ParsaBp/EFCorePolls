@@ -1,1 +1,1 @@
-﻿Console.WriteLine("Salam javad");
+﻿Console.WriteLine("Salam parsa");

@@ -1,4 +1,5 @@
-﻿using EFCorePolls.Entity;
+﻿using EFCorePolls.DTO;
+using EFCorePolls.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace EFCorePolls.Contract.IRepozitory
     public interface IQuestionRepository
     {
         public void CreateQuestio(Question question);
-        Question GetQuestionById(int questionId);
+        public List<Option> GetOptionsFromQuestion(int questionId);
     }
 }

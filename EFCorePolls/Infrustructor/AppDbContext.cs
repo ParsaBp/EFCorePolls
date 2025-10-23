@@ -30,7 +30,7 @@ namespace EFCorePolls.Infrustructor
             model.Entity<User>().HasData(
                 new User { Id = 1, Password = "1234", Role = UserEnum.NormalUser, UserName = "user1" },
                 new User { Id = 2, Password = "1234", Role = UserEnum.NormalUser, UserName = "user2" },
-                new User { Id = 1, Password = "1234", Role = UserEnum.Admin, UserName = "admin1" }
+                new User { Id = 3, Password = "1234", Role = UserEnum.Admin, UserName = "admin1" }
                 );
 
             model.Entity<Poll>().HasData(
@@ -54,7 +54,7 @@ namespace EFCorePolls.Infrustructor
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Data Source=LAPTOP-H4J70AS8\\SQLEXPRESS;Initial Catalog=Polls - DB;Integrated Security=True;Trust Server Certificate=True");
+                "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             base.OnConfiguring(optionsBuilder);
         }
 

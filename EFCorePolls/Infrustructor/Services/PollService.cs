@@ -43,7 +43,7 @@ namespace EFCorePolls.Infrustructor.Services
                 new Option { Text = option4 }
             };
 
-            var question = new Question
+            var question = new Entity.Question
             {
                 Text = questionText,
                 Options = options
@@ -52,7 +52,7 @@ namespace EFCorePolls.Infrustructor.Services
             var poll = new Poll
             {
                 Title = title,
-                Questions = new List<Question> { question }
+                Questions = new List<Entity.Question> { question }
             };
 
             try
@@ -99,23 +99,23 @@ namespace EFCorePolls.Infrustructor.Services
         }
 
         // 2. Vote in a poll (user chooses an option 1–4)
-        public ResultDto Vote(int pollId, int questionId, int selectedOptionNumber, int userId , string username)
+        public ResultDto Vote(int pollId, int questionId, int selectedOptionNumber, int userId, string username)
         {
-            
+
 
             if (!_pollRepo.PollExists(pollId))
                 return new ResultDto { IsSuccess = false, Message = "Poll does not exist." };
 
             // Check if already voted
-            if (_voteRepo.UserHasVoted(pollId,userId))
+            if (_voteRepo.UserHasVoted(pollId, userId))
                 return new ResultDto { IsSuccess = false, Message = "You have already voted in this poll." };
 
             // Map 1–4 to actual option
-            var question = _questionRepo.GetQuestionById(questionId);
-            if (question == null || question.Options.Count < selectedOptionNumber || selectedOptionNumber < 1)
+            var options = _questionRepo.GetOptionsFromQuestion(questionId);
+            if (options == null || options.Count < selectedOptionNumber || selectedOptionNumber < 1)
                 return new ResultDto { IsSuccess = false, Message = "Invalid option number." };
 
-            var selectedOption = question.Options[selectedOptionNumber - 1];
+            var selectedOption = options[selectedOptionNumber - 1];
 
             // Create and save vote
             var vote = new Vote

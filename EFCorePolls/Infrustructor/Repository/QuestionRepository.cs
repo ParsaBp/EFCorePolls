@@ -1,4 +1,5 @@
 ﻿using EFCorePolls.Contract.IRepozitory;
+using EFCorePolls.DTO;
 using EFCorePolls.Entity;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,12 @@ namespace EFCorePolls.Infrustructor.Repository
             _appDb.SaveChanges();
         }
 
-        public Question GetQuestionById(int questionId)
+        public List<Option> GetOptionsFromQuestion(int questionId)
         {
-            return _appDb.Questions.FirstOrDefault(q => q.Id == questionId);
+            return _appDb.Questions
+                .Where(q => q.Id == questionId)
+                .SelectMany(q => q.Options)
+                .ToList();
         }
     }
 }

@@ -12,14 +12,14 @@ using EFCorePolls.Infrustructor.Repository;
 
 namespace EFCorePolls.Infrustructor.Services
 {
-   public class UserService : IUserService
-   {
-       private readonly IUserRepository _userRepository;
+    public class UserService : IUserService
+    {
+        private readonly IUserRepository _userRepository;
 
-       public UserService()
-       {
-           _userRepository = new UserRepository();
-       }
+        public UserService()
+        {
+            _userRepository = new UserRepository();
+        }
         public LoginDto login(string username, string password)
         {
 
@@ -69,11 +69,11 @@ namespace EFCorePolls.Infrustructor.Services
                 UserName = username,
                 Password = password,
                 Role = Role,
-                
+
             };
             _userRepository.Register(User);
             return new ResultDto { IsSuccess = true, Message = "Registration is Successful ." };
         }
     }
-    
+
 }

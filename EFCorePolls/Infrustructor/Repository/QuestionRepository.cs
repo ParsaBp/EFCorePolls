@@ -31,5 +31,7 @@ namespace EFCorePolls.Infrustructor.Repository
                 .SelectMany(q => q.Options)
                 .ToList();
         }
+
+
     }
 }

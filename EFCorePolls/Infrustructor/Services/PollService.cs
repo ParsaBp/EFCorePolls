@@ -14,17 +14,13 @@ namespace EFCorePolls.Infrustructor.Services
     {
         private readonly IPollRepository _pollRepo;
         private readonly IQuestionRepository _questionRepo;
-        private readonly IOptionRepository _optionRepo;
         private readonly IVoteRepository _voteRepo;
-        private readonly IUserRepository _userRepo;
 
-        public PollService(IPollRepository pollRepo, IQuestionRepository questionRepo, IOptionRepository optionRepo, IVoteRepository voteRepo, IUserRepository userRepo)
+        public PollService()
         {
-            _pollRepo = pollRepo;
-            _questionRepo = questionRepo;
-            _optionRepo = optionRepo;
-            _voteRepo = voteRepo;
-            _userRepo = userRepo;
+            _pollRepo = new PollRepository();
+            _questionRepo = new QuestionRepository();
+            _voteRepo = new VoteRepository();
         }
 
         public ResultDto CreatePoll(string title, string questionText, string option1, string option2, string option3, string option4)

@@ -59,7 +59,7 @@ namespace EFCorePolls.Infrustructor.Services
             var Check = _userRepository.CheckUsername(username);
 
 
-            if (!Check)
+            if (Check)
             {
                 return new ResultDto { IsSuccess = false, Message = "Your Username already in use ! " };
             }

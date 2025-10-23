@@ -18,32 +18,19 @@ namespace EFCorePolls.Infrustructor.Configuration
             builder.Property(v => v.VotedAt)
                    .IsRequired();
 
-            builder.Property(v => v.UserName)
-                   .IsRequired();
-
-            // Vote → Option (cascade delete)
+            // Vote → Option (many-to-one)
             builder.HasOne(v => v.Option)
                    .WithMany(o => o.Votes)
                    .HasForeignKey(v => v.OptionId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            // Vote → Question (restrict to avoid multiple cascade paths)
-            builder.HasOne(v => v.Question)
-                   .WithMany(q => q.Votes)
-                   .HasForeignKey(v => v.QuestionId)
-                   .OnDelete(DeleteBehavior.Restrict);
+            // Remove Vote → Poll and Vote → Question (no longer needed)
 
-            // Vote → Poll (restrict to avoid multiple cascade paths)
-            builder.HasOne(v => v.Poll)
-                   .WithMany(p => p.Votes)
-                   .HasForeignKey(v => v.PollId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-            // Vote → User (set null on delete)
-            builder.HasOne(v => v.User)
-                   .WithMany(u => u.Votes)
-                   .HasForeignKey(v => v.UserId)
-                   .OnDelete(DeleteBehavior.SetNull);
+            //// User relationship (optional)
+            //builder.HasOne(v => v.User)
+            //       .WithMany(u => u.Votes)
+            //       .HasForeignKey(v => v.UserId)
+            //       .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

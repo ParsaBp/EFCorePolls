@@ -38,17 +38,17 @@ namespace EFCorePolls.Infrustructor
                 );
 
             model.Entity<Vote>().HasData(
-                new Vote { Id = 1, OptionId = 1, PollId = 1, UserId = 1, QuestionId = 1, UserName = "user1" },
-                new Vote { Id = 2, OptionId = 2, PollId = 1, UserId = 1, QuestionId = 1, UserName = "user2" }
+                new Vote { Id = 1, OptionId = 1, UserId = 1, UserName = "user1" },
+                new Vote { Id = 2, OptionId = 2, UserId = 1, UserName = "user2" }
                 );
             model.Entity<Question>().HasData(
                 new Question { Id=1 , PollId=1, Text="Is Desktop computer better than Laptop?"}
                 );
             model.Entity<Option>().HasData(
-                new Option { Id=1, PollId=1,QuestionId=1, Text="1.yes" },
-                new Option { Id = 2, PollId = 1, QuestionId = 1, Text = "2.no" },
-                new Option { Id = 3, PollId = 1, QuestionId = 1, Text = "3.maybe" },
-                new Option { Id = 4, PollId = 1, QuestionId = 1, Text = "4.I don't know" }
+                new Option { Id=1,QuestionId=1, Text="1.yes" },
+                new Option { Id = 2, QuestionId = 1, Text = "2.no" },
+                new Option { Id = 3, QuestionId = 1, Text = "3.maybe" },
+                new Option { Id = 4, QuestionId = 1, Text = "4.I don't know" }
                 );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

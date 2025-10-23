@@ -57,7 +57,7 @@ while (true)
                     break;
             }
         }
-        else // Regular User
+        else
         {
             Console.WriteLine("1. Vote in a Poll");
             Console.WriteLine("2. Show Polls");
@@ -82,7 +82,6 @@ while (true)
     Console.ReadKey();
 }
 
-// ---------------------- Methods ----------------------
 
 void RegisterUser()
 {
@@ -143,11 +142,16 @@ void ShowResults()
     if (int.TryParse(Console.ReadLine(), out int pollId))
     {
         var results = pollService.ShowPollResult(pollId);
-        string questionText = pollService.ShowQuestionText(pollId)
+        var questionDto = pollService.ShowQuestionText(pollId);
+        Console.WriteLine($"Question: {questionDto.Text}");
         foreach (var r in results)
         {
             Console.WriteLine($"Option: {r.OptionText}, Votes: {r.VoteCount}, Percentage: {r.Percentage:F2}%");
         }
+    }
+    else
+    {
+        Console.WriteLine("Invalid Poll ID.");
     }
 }
 
@@ -156,27 +160,28 @@ void ShowPolls()
     var polls = pollService.ShowPolls();
     foreach (var poll in polls)
     {
-        Console.WriteLine($"Poll ID: {poll.Id}, Question: {poll.QuestionText}");
+        Console.WriteLine($"Poll ID: {poll.PollId},QuestionId: {poll.QuestionId}, Question: {poll.QuestionText}");
     }
 }
 
 void VotePoll()
 {
-    Console.Write("Enter Poll ID: ");
-    int pollId = int.Parse(Console.ReadLine());
+    ShowPolls();
     Console.Write("Enter Question ID: ");
     int questionId = int.Parse(Console.ReadLine());
     Console.Write("Enter option number (1-4): ");
+
     int selectedOption = int.Parse(Console.ReadLine());
 
-    var result = pollService.Vote(pollId, questionId, selectedOption, LoggedInUser.Id, LoggedInUser.UserName);
+    var result = pollService.Vote(questionId, selectedOption, LoggedInUser.Id, LoggedInUser.UserName);
     Console.WriteLine(result.Message);
 }
 
-// ---------------------- DTO for logged-in user ----------------------
 class UserDto
 {
     public int Id { get; set; }
     public string UserName { get; set; }
     public UserEnum Role { get; set; }
 }
+
+//Console.WriteLine("salam seyed");

@@ -8,7 +8,9 @@ namespace EFCorePolls.DTO
 {
     public class ShowQuestionsDto
     {
-        public int Id { get; set; }
+        public int PollId { get; set; }
+        public int QuestionId { get; set; }
+
         public string QuestionText { get; set; }
     }
 }

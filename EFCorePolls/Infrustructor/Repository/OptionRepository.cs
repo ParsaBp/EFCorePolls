@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EFCorePolls.DTO;
 
 namespace EFCorePolls.Infrustructor.Repository
 {
@@ -23,6 +24,12 @@ namespace EFCorePolls.Infrustructor.Repository
         public void CreateOption(Option option)
         {
             _appDb.Options.Add(option);
+            _appDb.SaveChanges();
+        }
+
+        public void CreateOptionList(List<Option> options)
+        {
+            _appDb.Options.AddRange(options);
             _appDb.SaveChanges();
         }
     }

@@ -19,23 +19,19 @@ namespace EFCorePolls.Infrustructor.Configuration
                    .IsRequired()
                    .HasMaxLength(300);
 
-            // Option → Question (cascade delete)
+            // Option → Question (many-to-one)
             builder.HasOne(o => o.Question)
                    .WithMany(q => q.Options)
                    .HasForeignKey(o => o.QuestionId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            // Option → Poll (restrict to avoid multiple cascade paths)
-            builder.HasOne(o => o.Poll)
-                   .WithMany(p => p.Options)
-                   .HasForeignKey(o => o.PollId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-            // Option → Votes (cascade delete)
+            // Option → Votes (one-to-many)
             builder.HasMany(o => o.Votes)
                    .WithOne(v => v.Option)
                    .HasForeignKey(v => v.OptionId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            // Remove Option → Poll (no longer exists)
         }
     }
 }

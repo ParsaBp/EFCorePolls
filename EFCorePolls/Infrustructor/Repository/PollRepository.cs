@@ -33,7 +33,7 @@ namespace EFCorePolls.Infrustructor.Repository
             {
                 _appDb.Polls.Remove(poll);
                 _appDb.SaveChanges();
-                new ResultDto { IsSuccess = true, Message = "The poll deleted successfully" };
+                return new ResultDto { IsSuccess = true, Message = "The poll deleted successfully" };
             }
 
             return new ResultDto { IsSuccess = false, Message = "The poll Not deleted " };
@@ -43,29 +43,33 @@ namespace EFCorePolls.Infrustructor.Repository
         public List<PollResultDto> ShowPollResult(int pollId)
         {
             return _appDb.Options
-                           .Where(o => o.PollId == pollId)
-                           .Include(o => o.Votes)
-                           .Include(o=>o.Question)
-                           .Select(o => new PollResultDto
-                           {
-                               QuestionText=o.Question.Text ,
-                               OptionText = o.Text,
-                               VoteCount = o.Votes.Count,
-                               Participants = o.Votes
-                                               .Select(v => v.UserName)
-                                               .ToList()
-                           })
-                           .ToList();
+                         .Include(o => o.Votes)
+                         .Include(o => o.Question)
+                         .ThenInclude(q => q.Poll)
+                         .Where(o => o.Question.PollId == pollId)
+                         .Select(o => new PollResultDto
+                         {
+                             QuestionText = o.Question.Text,
+                             OptionText = o.Text,
+                             VoteCount = o.Votes.Count,
+                             Participants = o.Votes
+                                             .Select(v => v.UserName)
+                                             .ToList()
+                         })
+                         .ToList();
         }
 
         public List<ShowQuestionsDto> ShowPolls()
         {
             return _appDb.Questions
-                .Select(q => new ShowQuestionsDto
-            {
-                Id = q.PollId,
-                QuestionText = q.Text
-            }).ToList(); 
+                         .Include(q => q.Poll)
+                         .Select(q => new ShowQuestionsDto
+                         {
+                             PollId = q.Poll.Id,       // Poll Id
+                             QuestionId=q.Id,
+                             QuestionText = q.Text  // Question Text
+                         })
+                         .ToList();
         }
 
         public bool PollExists(int pollId)

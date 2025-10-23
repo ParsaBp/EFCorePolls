@@ -19,5 +19,6 @@ namespace EFCorePolls.Contract.IRepozitory
         public List<ShowQuestionsDto> ShowPolls();
 
         public bool PollExists(int pollId);
+
     }
 }

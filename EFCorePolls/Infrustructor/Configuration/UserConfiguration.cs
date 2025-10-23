@@ -15,17 +15,24 @@ namespace EFCorePolls.Infrustructor.Configuration
         {
             builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.Role).HasConversion<string>();
-
             builder.Property(u => u.UserName)
                    .IsRequired()
                    .HasMaxLength(100);
 
-            // User → Votes (no cascade, handled via VoteConfiguration)
+            builder.Property(u => u.Password)
+                   .IsRequired()
+                   .HasMaxLength(200);
+
+            // User → Votes (one-to-many)
             builder.HasMany(u => u.Votes)
                    .WithOne(v => v.User)
                    .HasForeignKey(v => v.UserId)
                    .OnDelete(DeleteBehavior.SetNull);
+
+            //// Optional: User → Polls (if users can create polls)
+            //builder.HasMany(u => u.Polls)
+            //       .WithOne() // Assuming Poll does not reference User directly
+            //       .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

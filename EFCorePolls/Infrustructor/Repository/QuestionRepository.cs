@@ -1,6 +1,7 @@
 ﻿using EFCorePolls.Contract.IRepozitory;
 using EFCorePolls.DTO;
 using EFCorePolls.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace EFCorePolls.Infrustructor.Repository
             _appDb = new AppDbContext();
         }
 
-        public void CreateQuestio(Question question)
+        public void CreateQuestion(Question question)
         {
             _appDb.Questions.Add(question);
             _appDb.SaveChanges();
@@ -29,9 +30,17 @@ namespace EFCorePolls.Infrustructor.Repository
             return _appDb.Questions
                 .Where(q => q.Id == questionId)
                 .SelectMany(q => q.Options)
+                .Include(o => o.Question) // Include Question navigation
                 .ToList();
         }
 
-
+        public ShowQuestionTextDto GetQuestion(int pollId)
+        {
+           return _appDb.Questions.Where(q => q.PollId == pollId).Select(q => new ShowQuestionTextDto
+            {
+                Text = q.Text
+            }).FirstOrDefault();
+            
+        }
     }
 }

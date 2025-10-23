@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCorePolls.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251023073208_init2")]
-    partial class init2
+    [Migration("20251023121118_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,6 @@ namespace EFCorePolls.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PollId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
@@ -46,8 +43,6 @@ namespace EFCorePolls.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PollId");
-
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Options");
@@ -56,28 +51,24 @@ namespace EFCorePolls.Migrations
                         new
                         {
                             Id = 1,
-                            PollId = 1,
                             QuestionId = 1,
                             Text = "1.yes"
                         },
                         new
                         {
                             Id = 2,
-                            PollId = 1,
                             QuestionId = 1,
                             Text = "2.no"
                         },
                         new
                         {
                             Id = 3,
-                            PollId = 1,
                             QuestionId = 1,
                             Text = "3.maybe"
                         },
                         new
                         {
                             Id = 4,
-                            PollId = 1,
                             QuestionId = 1,
                             Text = "4.I don't know"
                         });
@@ -126,8 +117,8 @@ namespace EFCorePolls.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -154,11 +145,11 @@ namespace EFCorePolls.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -174,21 +165,21 @@ namespace EFCorePolls.Migrations
                         {
                             Id = 1,
                             Password = "1234",
-                            Role = "NormalUser",
+                            Role = 1,
                             UserName = "user1"
                         },
                         new
                         {
                             Id = 2,
                             Password = "1234",
-                            Role = "NormalUser",
+                            Role = 1,
                             UserName = "user2"
                         },
                         new
                         {
                             Id = 3,
                             Password = "1234",
-                            Role = "Admin",
+                            Role = 0,
                             UserName = "admin1"
                         });
                 });
@@ -204,10 +195,7 @@ namespace EFCorePolls.Migrations
                     b.Property<int>("OptionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PollId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("PollId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId")
@@ -226,8 +214,6 @@ namespace EFCorePolls.Migrations
 
                     b.HasIndex("PollId");
 
-                    b.HasIndex("QuestionId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Votes");
@@ -237,8 +223,6 @@ namespace EFCorePolls.Migrations
                         {
                             Id = 1,
                             OptionId = 1,
-                            PollId = 1,
-                            QuestionId = 1,
                             UserId = 1,
                             UserName = "user1",
                             VotedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -247,8 +231,6 @@ namespace EFCorePolls.Migrations
                         {
                             Id = 2,
                             OptionId = 2,
-                            PollId = 1,
-                            QuestionId = 1,
                             UserId = 1,
                             UserName = "user2",
                             VotedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -257,19 +239,11 @@ namespace EFCorePolls.Migrations
 
             modelBuilder.Entity("EFCorePolls.Entity.Option", b =>
                 {
-                    b.HasOne("EFCorePolls.Entity.Poll", "Poll")
-                        .WithMany("Options")
-                        .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("EFCorePolls.Entity.Question", "Question")
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Poll");
 
                     b.Navigation("Question");
                 });
@@ -300,17 +274,9 @@ namespace EFCorePolls.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFCorePolls.Entity.Poll", "Poll")
+                    b.HasOne("EFCorePolls.Entity.Poll", null)
                         .WithMany("Votes")
-                        .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("EFCorePolls.Entity.Question", "Question")
-                        .WithMany("Votes")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("PollId");
 
                     b.HasOne("EFCorePolls.Entity.User", "User")
                         .WithMany("Votes")
@@ -318,10 +284,6 @@ namespace EFCorePolls.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Option");
-
-                    b.Navigation("Poll");
-
-                    b.Navigation("Question");
 
                     b.Navigation("User");
                 });
@@ -333,8 +295,6 @@ namespace EFCorePolls.Migrations
 
             modelBuilder.Entity("EFCorePolls.Entity.Poll", b =>
                 {
-                    b.Navigation("Options");
-
                     b.Navigation("Questions");
 
                     b.Navigation("Votes");
@@ -343,8 +303,6 @@ namespace EFCorePolls.Migrations
             modelBuilder.Entity("EFCorePolls.Entity.Question", b =>
                 {
                     b.Navigation("Options");
-
-                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("EFCorePolls.Entity.User", b =>

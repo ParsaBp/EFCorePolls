@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace EFCorePolls.Entity
 {
-   public class Poll
+    public class Poll
     {
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public List<Option> Options { get; set; } 
-        public List<Vote> Votes { get; set; } 
         public List<Question> Questions { get; set; }
+
+        public List<Vote> Votes { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace EFCorePolls.Contract.IRepozitory
 
         public bool PollExists(int pollId);
 
+        public Poll GetPollByTitle(string title);
+
     }
 }

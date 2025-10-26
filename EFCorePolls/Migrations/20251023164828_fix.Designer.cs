@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCorePolls.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251023121118_init")]
-    partial class init
+    [Migration("20251023164828_fix")]
+    partial class fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,12 +87,7 @@ namespace EFCorePolls.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Polls");
 
@@ -195,9 +190,6 @@ namespace EFCorePolls.Migrations
                     b.Property<int>("OptionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PollId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -211,8 +203,6 @@ namespace EFCorePolls.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OptionId");
-
-                    b.HasIndex("PollId");
 
                     b.HasIndex("UserId");
 
@@ -248,13 +238,6 @@ namespace EFCorePolls.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("EFCorePolls.Entity.Poll", b =>
-                {
-                    b.HasOne("EFCorePolls.Entity.User", null)
-                        .WithMany("Polls")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("EFCorePolls.Entity.Question", b =>
                 {
                     b.HasOne("EFCorePolls.Entity.Poll", "Poll")
@@ -274,10 +257,6 @@ namespace EFCorePolls.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFCorePolls.Entity.Poll", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("PollId");
-
                     b.HasOne("EFCorePolls.Entity.User", "User")
                         .WithMany("Votes")
                         .HasForeignKey("UserId")
@@ -296,8 +275,6 @@ namespace EFCorePolls.Migrations
             modelBuilder.Entity("EFCorePolls.Entity.Poll", b =>
                 {
                     b.Navigation("Questions");
-
-                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("EFCorePolls.Entity.Question", b =>
@@ -307,8 +284,6 @@ namespace EFCorePolls.Migrations
 
             modelBuilder.Entity("EFCorePolls.Entity.User", b =>
                 {
-                    b.Navigation("Polls");
-
                     b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618

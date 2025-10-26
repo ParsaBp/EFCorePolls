@@ -39,7 +39,7 @@ namespace EFCorePolls.Infrustructor
 
             model.Entity<Vote>().HasData(
                 new Vote { Id = 1, OptionId = 1, UserId = 1, UserName = "user1" },
-                new Vote { Id = 2, OptionId = 2, UserId = 1, UserName = "user2" }
+                new Vote { Id = 2, OptionId = 2, UserId = 2, UserName = "user2" }
                 );
             model.Entity<Question>().HasData(
                 new Question { Id=1 , PollId=1, Text="Is Desktop computer better than Laptop?"}

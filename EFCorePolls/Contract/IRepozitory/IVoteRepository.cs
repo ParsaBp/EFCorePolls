@@ -11,6 +11,6 @@ namespace EFCorePolls.Contract.IRepozitory
     {
         public bool AnyUserHasVoted(int pollId);
         public void AddVote(Vote vote);
-        public bool UserHasVoted(int pollId, int userId);
+        public bool UserHasVoted(int questionId, int userId);
     }
 }

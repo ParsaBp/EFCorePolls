@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCorePolls.Infrustructor.Repository
 {
-  public  class UserRepository : IUserRepository
-  {
-      private readonly AppDbContext _appDb;
+    public class UserRepository : IUserRepository
+    {
+        private readonly AppDbContext _appDb;
 
-      public UserRepository()
-      {
-          _appDb = new AppDbContext();
-      }
+        public UserRepository()
+        {
+            _appDb = new AppDbContext();
+        }
         public bool CheckUsername(string username)
         {
             return _appDb.Users.Any(u => u.UserName == username);
@@ -27,7 +27,7 @@ namespace EFCorePolls.Infrustructor.Repository
         {
             return _appDb.Users
                 .Where(u => u.UserName == username && u.Password == password)
-                .Select(u => new LoginDto { Id = u.Id, Role = u.Role,Username=u.UserName })
+                .Select(u => new LoginDto { Id = u.Id, Role = u.Role, Username = u.UserName })
                 .FirstOrDefault();
         }
 

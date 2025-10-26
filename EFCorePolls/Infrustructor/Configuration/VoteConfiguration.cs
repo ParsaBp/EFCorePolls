@@ -18,19 +18,10 @@ namespace EFCorePolls.Infrustructor.Configuration
             builder.Property(v => v.VotedAt)
                    .IsRequired();
 
-            // Vote → Option (many-to-one)
             builder.HasOne(v => v.Option)
                    .WithMany(o => o.Votes)
                    .HasForeignKey(v => v.OptionId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-            // Remove Vote → Poll and Vote → Question (no longer needed)
-
-            //// User relationship (optional)
-            //builder.HasOne(v => v.User)
-            //       .WithMany(u => u.Votes)
-            //       .HasForeignKey(v => v.UserId)
-            //       .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

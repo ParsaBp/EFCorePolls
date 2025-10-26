@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EFCorePolls.DTO
 {
     public class ShowQuestionTextDto
-    { 
+    {
         public string Text { get; set; }
     }
 }

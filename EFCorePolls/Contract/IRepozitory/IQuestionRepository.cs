@@ -12,7 +12,7 @@ namespace EFCorePolls.Contract.IRepozitory
     {
         public void CreateQuestion(Question question);
         public List<Option> GetOptionsFromQuestion(int questionId);
-        ShowQuestionTextDto GetQuestion(int pollId);
+        List<ShowQuestionTextDto> GetQuestion(int pollId);
 
     }
 }

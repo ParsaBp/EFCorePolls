@@ -41,7 +41,7 @@ namespace EFCorePolls.Infrustructor.Services
             }
             else
             {
-                return new LoginDto { IsSuccess = true, Message = "Wellcome", Role = userinfo.Role, Id = userinfo.Id };
+                return new LoginDto { IsSuccess = true, Message = "Logged in successfully.", Role = userinfo.Role, Id = userinfo.Id };
             }
         }
 

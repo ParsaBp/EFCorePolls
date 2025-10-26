@@ -19,19 +19,15 @@ namespace EFCorePolls.Infrustructor.Configuration
                    .IsRequired()
                    .HasMaxLength(500);
 
-            // Question → Poll (many-to-one)
             builder.HasOne(q => q.Poll)
                    .WithMany(p => p.Questions)
                    .HasForeignKey(q => q.PollId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            // Question → Options (one-to-many)
             builder.HasMany(q => q.Options)
                    .WithOne(o => o.Question)
                    .HasForeignKey(o => o.QuestionId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-            // Remove Question → Votes (votes tracked via Options)
         }
     }
 }

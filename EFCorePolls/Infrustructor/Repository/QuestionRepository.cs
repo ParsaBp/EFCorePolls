@@ -30,17 +30,17 @@ namespace EFCorePolls.Infrustructor.Repository
             return _appDb.Questions
                 .Where(q => q.Id == questionId)
                 .SelectMany(q => q.Options)
-                .Include(o => o.Question) // Include Question navigation
+                .Include(o => o.Question)
                 .ToList();
         }
 
-        public ShowQuestionTextDto GetQuestion(int pollId)
+        public List<ShowQuestionTextDto> GetQuestion(int pollId)
         {
-           return _appDb.Questions.Where(q => q.PollId == pollId).Select(q => new ShowQuestionTextDto
+            return _appDb.Questions.Where(q => q.PollId == pollId).Select(q => new ShowQuestionTextDto
             {
                 Text = q.Text
-            }).FirstOrDefault();
-            
+            }).ToList();
+
         }
     }
 }

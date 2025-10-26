@@ -35,11 +35,18 @@ namespace EFCorePolls.Infrustructor.Services
 
             try
             {
-                var poll = new Poll
+                var existingPoll = _pollRepo.GetPollByTitle(title);
+
+                Poll poll;
+                if (existingPoll != null)
                 {
-                    Title = title
-                };
-                _pollRepo.CreatePoll(poll);
+                    poll = existingPoll;
+                }
+                else
+                {
+                    poll = new Poll { Title = title };
+                    _pollRepo.CreatePoll(poll);
+                }
 
                 var question = new Question
                 {
@@ -49,24 +56,27 @@ namespace EFCorePolls.Infrustructor.Services
                 _questionRepo.CreateQuestion(question);
 
                 var options = new List<Option>
-        {
-            new Option { Text = option1, QuestionId = question.Id },
-            new Option { Text = option2, QuestionId = question.Id },
-            new Option { Text = option3, QuestionId = question.Id },
-            new Option { Text = option4, QuestionId = question.Id }
-        };
+                {
+                    new Option { Text = option1, QuestionId = question.Id },
+                    new Option { Text = option2, QuestionId = question.Id },
+                    new Option { Text = option3, QuestionId = question.Id },
+                    new Option { Text = option4, QuestionId = question.Id }
+                };
                 _optionRepo.CreateOptionList(options);
 
-                return new ResultDto { IsSuccess = true, Message = "Poll created successfully." };
+                return new ResultDto
+                {
+                    IsSuccess = true,
+                    Message = existingPoll == null
+                        ? "Poll created successfully."
+                        : "Question added to existing poll successfully."
+                };
             }
             catch (Exception ex)
             {
                 return new ResultDto { IsSuccess = false, Message = $"Error creating poll: {ex.Message}" };
             }
         }
-
-
-
 
 
         public ResultDto DeletePoll(int pollId)
@@ -92,7 +102,7 @@ namespace EFCorePolls.Infrustructor.Services
             return pollResults;
         }
 
-        public ShowQuestionTextDto ShowQuestionText(int pollId)
+        public List<ShowQuestionTextDto> ShowQuestionText(int pollId)
         {
             return _questionRepo.GetQuestion(pollId);
         }
@@ -110,8 +120,7 @@ namespace EFCorePolls.Infrustructor.Services
 
             var selectedOption = options[selectedOptionNumber - 1];
 
-            var pollId = selectedOption.Question.PollId;
-            if ( _voteRepo.UserHasVoted(pollId, userId))
+            if (_voteRepo.UserHasVoted(questionId, userId))
                 return new ResultDto { IsSuccess = false, Message = "You have already voted in this poll." };
 
             var vote = new Vote

@@ -10,9 +10,6 @@ namespace EFCorePolls.Entity
     {
         public int Id { get; set; }
         public string Title { get; set; }
-
         public List<Question> Questions { get; set; }
-
-        public List<Vote> Votes { get; set; }
     }
 }

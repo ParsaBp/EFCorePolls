@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EFCorePolls.Infrustructor.Repository
 {
-    public class VoteRepository:IVoteRepository
+    public class VoteRepository : IVoteRepository
     {
         private readonly AppDbContext _appDb;
 
@@ -17,12 +17,12 @@ namespace EFCorePolls.Infrustructor.Repository
         {
             _appDb = new AppDbContext();
         }
-      public bool AnyUserHasVoted(int pollId)
+        public bool AnyUserHasVoted(int pollId)
         {
             return _appDb.Votes
-                         .Include(v => v.Option)
-                         .ThenInclude(o => o.Question)
-                         .Any(v => v.Option.Question.PollId == pollId);
+                .Include(v => v.Option)
+                .ThenInclude(o => o.Question)
+                .Any(v => v.Option.Question.PollId == pollId);
         }
         public void AddVote(Vote vote)
         {
@@ -30,13 +30,12 @@ namespace EFCorePolls.Infrustructor.Repository
             _appDb.SaveChanges();
         }
 
-        public bool UserHasVoted(int pollId, int userId)
-         {
+        public bool UserHasVoted(int questionId, int userId)
+        {
             return _appDb.Votes
-              .Include(v => v.Option)
-              .ThenInclude(o => o.Question)
-              .Any(v => v.Option.Question.PollId == pollId && v.UserId == userId);
-
-         }
+                .Include(v => v.Option)
+                .ThenInclude(o => o.Question)
+                .Any(v => v.Option.Question.Id == questionId && v.UserId == userId);
+        }
     }
 }

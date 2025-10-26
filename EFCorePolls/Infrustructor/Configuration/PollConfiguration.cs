@@ -20,15 +20,10 @@ namespace EFCorePolls.Infrustructor.Configuration
                    .IsRequired()
                    .HasMaxLength(300);
 
-            // Poll → Questions (cascade delete)
             builder.HasMany(p => p.Questions)
                    .WithOne(q => q.Poll)
                    .HasForeignKey(q => q.PollId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-            // Poll → Votes and Poll → Options removed
-            // Votes are tracked via Options
-            // Options belong to Questions now
         }
     }
 }

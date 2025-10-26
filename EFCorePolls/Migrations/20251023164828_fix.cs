@@ -8,11 +8,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EFCorePolls.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class fix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Polls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Polls", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -26,25 +39,6 @@ namespace EFCorePolls.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Polls",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Polls", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Polls_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -96,8 +90,7 @@ namespace EFCorePolls.Migrations
                     VotedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OptionId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PollId = table.Column<int>(type: "int", nullable: true)
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,11 +102,6 @@ namespace EFCorePolls.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Votes_Polls_PollId",
-                        column: x => x.PollId,
-                        principalTable: "Polls",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Votes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
@@ -123,8 +111,8 @@ namespace EFCorePolls.Migrations
 
             migrationBuilder.InsertData(
                 table: "Polls",
-                columns: new[] { "Id", "Title", "UserId" },
-                values: new object[] { 1, "question1", null });
+                columns: new[] { "Id", "Title" },
+                values: new object[] { 1, "question1" });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -154,22 +142,17 @@ namespace EFCorePolls.Migrations
 
             migrationBuilder.InsertData(
                 table: "Votes",
-                columns: new[] { "Id", "OptionId", "PollId", "UserId", "UserName", "VotedAt" },
+                columns: new[] { "Id", "OptionId", "UserId", "UserName", "VotedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, null, 1, "user1", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 2, null, 1, "user2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, 1, "user1", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 2, 1, "user2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Options_QuestionId",
                 table: "Options",
                 column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Polls_UserId",
-                table: "Polls",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_PollId",
@@ -180,11 +163,6 @@ namespace EFCorePolls.Migrations
                 name: "IX_Votes_OptionId",
                 table: "Votes",
                 column: "OptionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Votes_PollId",
-                table: "Votes",
-                column: "PollId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Votes_UserId",
@@ -202,13 +180,13 @@ namespace EFCorePolls.Migrations
                 name: "Options");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Polls");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

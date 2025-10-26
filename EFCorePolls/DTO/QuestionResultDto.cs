@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace EFCorePolls.DTO
 {
-    public class ShowQuestionsDto
+    public class QuestionResultDto
     {
-        public int PollId { get; set; }
-        public int QuestionId { get; set; }
         public string QuestionText { get; set; }
+        public List<OptionResultDto> Options { get; set; }
     }
 }
